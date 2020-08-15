@@ -1,0 +1,134 @@
+@mixin font-face($family, $name, $weight, $style) {
+  font-family: $family;
+  src: url('../../public/fonts/#{$name}.otf');
+  src: url('../../public/fonts/#{$name}.eot?#iefix') format('embedded-opentype'), url('../../public/fonts/#{$name}.woff') format('woff'), url('/../public/fonts/#{$name}.woff2') format('woff2'), url('../../public/fonts/#{$name}.ttf') format('truetype');
+  font-weight: $weight;
+  font-style: $style;
+  font-display: swap;
+}
+
+@mixin text-style-font($font-family, $font-size, $font-weight, $line-height, $font-style, $color, $letter-spacing) {
+  @if $font-style != normal {
+    font: $font-style $font-weight $font-size/$line-height $font-family;
+  } @else {
+    font: normal $font-weight $font-size/$line-height $font-family;
+  }
+
+  @if $color != false {
+    color: $color;
+  }
+
+  @if $letter-spacing != false {
+    letter-spacing: $letter-spacing;
+  }
+}
+
+@mixin text-style($font-size, $font-weight, $line-height, $font-style, $color, $letter-spacing) {
+  font-size: $font-size;
+  font-weight: $font-weight;
+  line-height: $line-height;
+
+  @if $font-style != normal {
+    font-style: $font-style;
+  }
+
+  @if $color != false {
+    color: $color;
+  }
+
+  @if $letter-spacing != false {
+    letter-spacing: $letter-spacing;
+  }
+}
+
+@mixin pseudo($content: '', $display: block, $position: absolute) {
+  content: $content;
+  display: $display;
+
+  @if $position != static {
+    position: $position;
+  }
+}
+
+@mixin breakpoint($arg) {
+  @media(max-width: map_get($breakpoints, $arg)) {
+    @content
+  }
+}
+
+// Container Width
+@function container-width($container, $padding) {
+  @return $container + ($padding * 2);
+}
+
+//Column Width
+@function columnWidth($column) {
+  @return (100% / 12) * $column;
+}
+
+// Flex Column Width
+@mixin flex-column-width($columns) {
+  flex: 0 0 (100% / 12) * $columns;
+  max-width: $width;
+}
+
+
+//fz в rem, lh в em
+@function em($from, $to, $dimension: true) {
+  @return ($from / $to) * if($dimension, 1em, 1);
+}
+
+@function rem($px, $root: 16px) {
+  @return ($px / $root) * 1rem;
+}
+
+@mixin font($font-size, $line-height: null) {
+  font-size: rem($font-size);
+  line-height: if($line-height, em($line-height, $font-size, false), null);
+}
+
+//placeholder
+@mixin input-placeholder {
+  &.placeholder { @content; }
+  &:-moz-placeholder { @content; }
+  &::-moz-placeholder { @content; }
+  &:-ms-input-placeholder { @content; }
+  &::-webkit-input-placeholder { @content; }
+}
+
+//Z-index
+$z-indexes: (
+        "outdated-browser",
+        "modal",
+        "site-header",
+        "page-wrapper",
+        "site-footer"
+);
+
+@function z($name) {
+  @if index($z-indexes, $name) {
+    @return (length($z-indexes) - index($z-indexes, $name)) + 1;
+  } @else {
+    @warn 'There is no item "#{$name}" in this list; choose one of: #{$z-indexes}';
+    @return null;
+  }
+}
+
+//Аппаратные сердтва
+@mixin hardware($backface: true, $perspective: 1000) {
+  @if $backface {
+    backface-visibility: hidden;
+  }
+  perspective: $perspective;
+}
+
+//Ретина
+@mixin retina {
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (-moz-min-device-pixel-ratio: 1.5),
+  only screen and (-o-min-device-pixel-ratio: 3 / 2),
+  only screen and (min-device-pixel-ratio: 1.5),
+  only screen and (min-resolution: 1.5dppx) {
+    @content;
+  }
+}

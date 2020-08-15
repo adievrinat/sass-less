@@ -1,0 +1,17 @@
+// Flex Column Width
+.flex-column-width(@columns) {
+    @width: (100% / 12) * @columns;
+
+    .flex(0 0 @width);
+    max-width: @width;
+}
+
+// Container Width
+.container-width(@container, @padding) {
+    max-width: @container + (@padding * 2);
+}
+
+//Column Width - Начнет работать с обновления версии less
+.columnWidth(@column) {
+    @columnWidth: (100% / 12) * @column;
+}

@@ -146,3 +146,14 @@ $z-indexes: (
 
     @return calc( #{$k} * 100vw + #{$b} );
 }
+
+//position
+@mixin pos($pos, $t, $r, $b, $l, $z: false, $hardware: true) {
+	@if $pos == fixed and $hardware { @include hardware; }
+	@if $pos { position: $pos; }
+	@if $t { top: $t; }
+	@if $r { right: $r; }
+	@if $b { bottom: $b; }
+	@if $l { left: $l; }
+	@if $z { z-index: $z; }
+}
